@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dhikr and Namaz Counter</title>
+    <style>
+        table {
+            width: 100%;
+            margin: auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid black;
+        }
+        button {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2 style="text-align: center;">Dhikr and Namaz Counter (Local Storage)</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Dhikr / Namaz</th>
+                <th>Thaju Count</th>
+                <th>Hiba Count</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Subhanallah</td>
+                <td id="thaju-subhanallah">0</td>
+                <td id="hiba-subhanallah">0</td>
+                <td>
+                    <button onclick="increment('thaju', 'subhanallah')">Thaju +</button>
+                    <button onclick="increment('hiba', 'subhanallah')">Hiba +</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Alhamdulillah</td>
+                <td id="thaju-alhamdulillah">0</td>
+                <td id="hiba-alhamdulillah">0</td>
+                <td>
+                    <button onclick="increment('thaju', 'alhamdulillah')">Thaju +</button>
+                    <button onclick="increment('hiba', 'alhamdulillah')">Hiba +</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Allahu Akbar</td>
+                <td id="thaju-allahuakbar">0</td>
+                <td id="hiba-allahuakbar">0</td>
+                <td>
+                    <button onclick="increment('thaju', 'allahuakbar')">Thaju +</button>
+                    <button onclick="increment('hiba', 'allahuakbar')">Hiba +</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Astaghfirullah</td>
+                <td id="thaju-astaghfirullah">0</td>
+                <td id="hiba-astaghfirullah">0</td>
+                <td>
+                    <button onclick="increment('thaju', 'astaghfirullah')">Thaju +</button>
+                    <button onclick="increment('hiba', 'astaghfirullah')">Hiba +</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Laa ilaha illallah</td>
+                <td id="thaju-lailahaillallah">0</td>
+                <td id="hiba-lailahaillallah">0</td>
+                <td>
+                    <button onclick="increment('thaju', 'lailahaillallah')">Thaju +</button>
+                    <button onclick="increment('hiba', 'lailahaillallah')">Hiba +</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Fajr</td>
+                <td id="thaju-fajr">0</td>
+                <td id="hiba-fajr">0</td>
+                <td>
+                    <button onclick="increment('thaju', 'fajr')">Thaju +</button>
+                    <button onclick="increment('hiba', 'fajr')">Hiba +</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Dhuhr</td>
+                <td id="thaju-dhuhr">0</td>
+                <td id="hiba-dhuhr">0</td>
+                <td>
+                    <button onclick="increment('thaju', 'dhuhr')">Thaju +</button>
+                    <button onclick="increment('hiba', 'dhuhr')">Hiba +</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Asr</td>
+                <td id="thaju-asr">0</td>
+                <td id="hiba-asr">0</td>
+                <td>
+                    <button onclick="increment('thaju', 'asr')">Thaju +</button>
+                    <button onclick="increment('hiba', 'asr')">Hiba +</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Maghrib</td>
+                <td id="thaju-maghrib">0</td>
+                <td id="hiba-maghrib">0</td>
+                <td>
+                    <button onclick="increment('thaju', 'maghrib')">Thaju +</button>
+                    <button onclick="increment('hiba', 'maghrib')">Hiba +</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Isha</td>
+                <td id="thaju-isha">0</td>
+                <td id="hiba-isha">0</td>
+                <td>
+                    <button onclick="increment('thaju', 'isha')">Thaju +</button>
+                    <button onclick="increment('hiba', 'isha')">Hiba +</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        // Function to update counts and handle the counting logic
+        function increment(person, category) {
+            const countElementId = `${person}-${category}`;
+            let countElement = document.getElementById(countElementId);
+            let currentValue = parseInt(countElement.textContent);
+
+            // Increment the count locally
+            countElement.textContent = currentValue + 1;
+
+            // Save the updated count to local storage
+            localStorage.setItem(`${person}-${category}`, currentValue + 1);
+
+            // Check if the count has reached 33 for the dhikr categories
+            if (["subhanallah", "alhamdulillah", "allahuakbar", "astaghfirullah"].includes(category) && currentValue + 1 === 33) {
+                incrementLailahaillallah(person);
+            }
+        }
+
+        // Function to increment Laa ilaha illallah manually or automatically
+        function incrementLailahaillallah(person) {
+            const lailahaElementId = `${person}-lailahaillallah`;
+            let lailahaElement = document.getElementById(lailahaElementId);
+            let currentLailahaValue = parseInt(lailahaElement.textContent);
+
+            // Increment Laa ilaha illallah count
+            lailahaElement.textContent = currentLailahaValue + 1;
+
+            // Save to local storage
+            localStorage.setItem(`${person}-lailahaillallah`, currentLailahaValue + 1);
+        }
+
+        // Function to load the initial counts from local storage
+        function loadCounts() {
+            const categories = [
+                'subhanallah', 'alhamdulillah', 'allahuakbar', 'astaghfirullah',
+                'lailahaillallah', 'fajr', 'dhuhr', 'asr', 'maghrib', 'isha'
+            ];
+
+            categories.forEach(category => {
+                const thajuCount = localStorage.getItem(`thaju-${category}`) || 0;
+                const hibaCount = localStorage.getItem(`hiba-${category}`) || 0;
+
+                document.getElementById(`thaju-${category}`).textContent = thajuCount;
+                document.getElementById(`hiba-${category}`).textContent = hibaCount;
+            });
+        }
+
+        // Load the initial counts when the page loads
+        window.onload = loadCounts;
+    </script>
+</body>
+</html>
